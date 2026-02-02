@@ -1,11 +1,5 @@
 name: Deployments
 on:
-  # Run the deployment only once staging has been prepared.
-  workflow_run:
-    workflows: ["Dry activations"]
-    branches: [main]
-    types:
-      - completed
   push:
     branches: [main, production]
 jobs:
