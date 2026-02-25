@@ -176,6 +176,7 @@ def issue(
     github_issue: str | None,
     show_permalink: bool = False,
 ) -> dict:
+    suggestion_context.issue_code = issue.code
     return {
         "issue": issue,
         "show_permalink": show_permalink,

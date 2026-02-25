@@ -23,6 +23,9 @@
 
     <div class="row spread gap wrap">
       <div class="row gap wrap">
+        {% if data.issue_code %}
+          <span class="uppercase bold">{{ data.issue_code }}</span>
+        {% endif %}
         <a href="{% url 'webview:suggestion:detail' suggestion_id=data.suggestion.pk %}">Permalink</a>
         <a href="https://nvd.nist.gov/vuln/detail/{{ data.suggestion.cached.payload.cve_id | urlencode }}">
           {{ data.suggestion.cached.payload.cve_id }}

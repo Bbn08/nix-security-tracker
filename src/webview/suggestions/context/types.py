@@ -82,6 +82,7 @@ class SuggestionContext:
         self.can_edit: bool = can_edit
         self.suggestion: CVEDerivationClusterProposal = suggestion
         self.suggestion_stub_context: SuggestionStubContext | None = None
+        self.issue_code: str | None = None
         self.update_package_list_context(can_edit=can_edit)
         self.update_maintainer_list_context(can_edit=can_edit)
         # FIXME(@fricklerhandwerk): Constructor should take pre-fetched events in argument
