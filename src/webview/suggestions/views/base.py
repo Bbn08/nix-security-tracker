@@ -8,6 +8,7 @@ from django.urls import resolve
 from django.views.generic import TemplateView
 
 from shared.auth import can_edit_suggestion
+from shared.logs.events import RawEventType
 from shared.models.linkage import (
     CVEDerivationClusterProposal,
 )
@@ -21,10 +22,12 @@ def fetch_suggestion(suggestion_id: int) -> CVEDerivationClusterProposal:
 def get_suggestion_context(
     suggestion: CVEDerivationClusterProposal,
     can_edit: bool,
+    pre_fetched_events: list[RawEventType] | None = None,
 ) -> SuggestionContext:
     return SuggestionContext(
         suggestion=suggestion,
         can_edit=can_edit,
+        pre_fetched_events=pre_fetched_events,
     )
 
 

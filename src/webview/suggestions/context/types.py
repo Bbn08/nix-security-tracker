@@ -4,6 +4,7 @@ from enum import Enum
 from shared.logs.batches import batch_events
 from shared.logs.events import (
     Maintainer,  # FIXME(@florent): This is to import it from that module
+    RawEventType,
     remove_canceling_events,
 )
 from shared.logs.fetchers import fetch_suggestion_events
@@ -78,6 +79,7 @@ class SuggestionContext:
         self,
         suggestion: CVEDerivationClusterProposal,
         can_edit: bool,
+        pre_fetched_events: list[RawEventType] | None = None,
     ) -> None:
         self.show_status: bool = True
         self.can_edit: bool = can_edit
@@ -85,8 +87,12 @@ class SuggestionContext:
         self.suggestion_stub_context: SuggestionStubContext | None = None
         self.update_package_list_context(can_edit=can_edit)
         self.update_maintainer_list_context(can_edit=can_edit)
-        # FIXME(@fricklerhandwerk): Constructor should take pre-fetched events in argument
-        self.fetch_activity_log()
+        if pre_fetched_events is not None:
+            self.activity_log = batch_events(
+                remove_canceling_events(pre_fetched_events, sort=True)
+            )
+        else:
+            self.fetch_activity_log()
         self.error_message: str | None = None
 
     def update_package_list_context(
