@@ -56,8 +56,9 @@ class NixpkgsIssueView(DetailView):
         issue = self.get_object()
 
         # Fetch suggestion_context
+        events = fetch_suggestion_events_batch([issue.suggestion_id])
         context["suggestion_context"] = get_suggestion_context(
-            issue.suggestion, can_edit=False
+            issue.suggestion, can_edit=False, pre_fetched_events=events[issue.suggestion_id]
         )
         context["suggestion_context"].show_status = False
         github_issue_opened = NixpkgsEvent.objects.filter(
